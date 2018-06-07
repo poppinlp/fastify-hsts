@@ -1,6 +1,6 @@
 const fp = require('fastify-plugin');
 
-const hsts = (app, opts = {}, next) => {
+const hsts = (app, opts, next) => {
 	const maxAge = typeof opts.maxAge === 'number' ? Math.round(opts.maxAge) : 180 * 24 * 60 * 60;
 	const setIf = typeof opts.setIf === 'function' ? opts.setIf : () => true;
 	const headerArr = [];

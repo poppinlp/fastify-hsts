@@ -1,0 +1,4 @@
+Average req/sec in 5 times 10s test
+with no plugin: 31203.39
+with hsts middleware: 29262.58
+with fastify-hsts plugin: 30740.03
