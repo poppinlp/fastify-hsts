@@ -22,6 +22,9 @@
     "helmet",
     "hsts"
   ],
+  "files": [
+    "src"
+  ],
   "author": "PoppinL",
   "license": "MIT",
   "bugs": {
