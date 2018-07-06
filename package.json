@@ -1,6 +1,6 @@
 {
   "name": "fastify-hsts",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Fastify plugin for HTTP Strict Transport Security",
   "main": "src/index.js",
   "scripts": {
