@@ -20,7 +20,7 @@ You may find the reason in [benchmark result](./benchmarks/benchmark.txt) and wi
 ## Difference
 
 This plugin has passed all [hsts](https://github.com/helmetjs/hsts) test cases.
-But there are some differences to [csp](https://github.com/helmetjs/csp):
+But there are some differences to it:
 
 - Will use default value if no `maxAge` option or it's invalid.
 - Will ignore `setIf` if it's not a function.
