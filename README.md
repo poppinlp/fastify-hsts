@@ -17,6 +17,14 @@ You may know [hsts](https://github.com/helmetjs/hsts) as a [hsts middleware](htt
 
 You may find the reason in [benchmark result](./benchmarks/benchmark.txt) and wish you like it. :)
 
+## Difference
+
+This plugin has passed all [hsts](https://github.com/helmetjs/hsts) test cases.
+But there are some differences to [csp](https://github.com/helmetjs/csp):
+
+- Will use default value if no `maxAge` option or it's invalid.
+- Will ignore `setIf` if it's not a function.
+
 ## Install
 
 Via npm:
@@ -59,6 +67,10 @@ Set `max-age` in header. Default is `15552000` which means 180 days in seconds. 
 
 Set `includeSubDomains` value in header. Default is `true`. You could see more informations [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) for this value.
 
+### includeSubdomains {boolean}
+
+Alias to `includeSubDomains`.
+
 ### preload {boolean}
 
 Set `preload` value in header. Default is `false`. You could see more informations [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) for this value.
@@ -79,11 +91,13 @@ app.register(fastifyHsts, {
 
 ## Changelog
 
-- 0.2.0:
+- 0.3.0
+  - Use hsts test cases
+- 0.2.0
   - Add test case
   - Add code coverage
   - Add benchmarks
-- 0.1.0:
+- 0.1.0
   - Init version
 
 [ci-img]: https://img.shields.io/travis/poppinlp/fastify-hsts.svg?style=flat-square

@@ -1,4 +1,8 @@
-Average req/sec in 5 times 10s test
-with no plugin: 31203.39
-with hsts middleware: 29262.58
-with fastify-hsts plugin: 30740.03
+node version: v10.6.0
+platform: darwin
+cpus: [{"model":"Intel(R) Core(TM) i7-5557U CPU @ 3.10GHz","speed":3100,"times":{"user":69310330,"nice":0,"sys":37143310,"idle":262090000,"irq":0}},{"model":"Intel(R) Core(TM) i7-5557U CPU @ 3.10GHz","speed":3100,"times":{"user":37835770,"nice":0,"sys":15898280,"idle":314790250,"irq":0}},{"model":"Intel(R) Core(TM) i7-5557U CPU @ 3.10GHz","speed":3100,"times":{"user":66851320,"nice":0,"sys":31369890,"idle":270303140,"irq":0}},{"model":"Intel(R) Core(TM) i7-5557U CPU @ 3.10GHz","speed":3100,"times":{"user":38522630,"nice":0,"sys":15468120,"idle":314533510,"irq":0}}]
+
+Average req/sec in 3 times 10s test
+with no plugin: 19654.47
+with hsts middleware: 17875.67
+with fastify-hsts plugin: 19305.40

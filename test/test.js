@@ -12,52 +12,65 @@ test.beforeEach(t => {
 	t.context.app = app;
 });
 
-const testHandler = (t, opts, expectedHeader) => {
-	const { app } = t.context;
+const mock = async (t, opts, expected) => {
+	const rsp = await t.context.app.register(plugin, opts).inject({
+		method: 'get',
+		url: '/'
+	});
+	const header = rsp.headers['strict-transport-security'];
 
-	t.plan(3);
-	app.register(plugin, opts);
-	app.inject(
-		{
-			method: 'GET',
-			url: '/'
-		},
-		(err, res) => {
-			const expected = {
-				payload: 'hello world',
-				header: expectedHeader
-			};
-			const target = {
-				payload: res.payload,
-				header: res.headers['strict-transport-security']
-			};
-
-			t.is(err, null, 'should throw no error');
-			t.is(target.payload, expected.payload, 'should have expected response payload');
-			t.is(target.header, expected.header, 'should have expected response header');
-			t.end();
-		}
-	);
+	t.is(header, expected);
 };
 
-test.cb('default option', t => {
-	testHandler(t, {}, 'max-age=15552000; includeSubDomains');
+[
+	{ maxAge: -123 },
+	{ maxAge: '123' },
+	{ maxAge: true },
+	{ maxAge: false },
+	{ maxAge: {} },
+	{ maxAge: [] },
+	{ maxAge: [] },
+	{ setIf: 123 },
+	{ setIf: true },
+	{ setIf: false },
+	{ setIf: null },
+	{ maxage: false },
+	{ maxage: 1234 }
+].forEach(opts => {
+	test(`should get default value for invalid params: ${JSON.stringify(opts)}`, async t => {
+		await mock(t, opts, 'max-age=15552000; includeSubDomains');
+	});
 });
 
-test.cb('set maxAge to 12345', t => {
-	testHandler(t, { maxAge: 12345 }, 'max-age=12345; includeSubDomains');
+['includeSubDomains', 'includeSubdomains'].forEach(key => {
+	test(`can disable subdomains with ${key}`, async t => {
+		const opts = {};
+		opts[key] = false;
+
+		await mock(t, opts, 'max-age=15552000');
+	});
 });
 
-test.cb('set includeSubdomains to false', t => {
-	testHandler(t, { includeSubDomains: false }, 'max-age=15552000');
+test('can set maxAge to positive integer', async t => {
+	await mock(t, { maxAge: 1234 }, 'max-age=1234; includeSubDomains');
 });
 
-test.cb('set preload to true', t => {
-	testHandler(t, { preload: true }, 'max-age=15552000; includeSubDomains; preload');
+test('can round maxAge', async t => {
+	await mock(t, { maxAge: 1234.123 }, 'max-age=1234; includeSubDomains');
 });
 
-test.cb('set setIf and match it', t => {
-	testHandler(
+test('can enable preloading', async t => {
+	await mock(
+		t,
+		{
+			preload: true
+		},
+		'max-age=15552000; includeSubDomains; preload'
+	);
+});
+
+test('set setIf and match it', async t => {
+	await mock(
 		t,
 		{
 			setIf: () => true
@@ -66,8 +79,8 @@ test.cb('set setIf and match it', t => {
 	);
 });
 
-test.cb('set setIf but dont match', t => {
-	testHandler(
+test('set setIf but dont match', async t => {
+	await mock(
 		t,
 		{
 			setIf: () => false
